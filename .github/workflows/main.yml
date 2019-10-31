@@ -32,7 +32,8 @@ jobs:
       - name: Package asset
         run: |
           set -x 
-          tar -caf asset-${{ github.ref }}.tar.gz -C dist .
+          VERSION=$(echo ${{ github.ref }} | cut -d'/' -f3)
+          tar -caf asset-$VERSION.tar.gz -C dist .
 
       - name: Create Release
         id: create_release
