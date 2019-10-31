@@ -24,12 +24,14 @@ jobs:
           node --version
           yarn --version
 
-      - name: Build project
+      - name: Build ${{ github.sha }}
         run: |
           yarn
           yarn dist
-          ls -l *
-          sleep 1
+
+      - name: Package asset
+        run: |
+          set -x 
           tar -caf asset-${{ github.ref }}.tar.gz -C dist .
 
       - name: Create Release
