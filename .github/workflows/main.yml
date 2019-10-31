@@ -10,6 +10,31 @@ jobs:
     name: Upload Release Asset
     runs-on: ubuntu-18.04 # List in https://help.github.com/en/github/automating-your-workflow-with-github-actions/virtual-environments-for-github-actions#supported-virtual-environments-and-hardware-resources
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
       - name: Checkout code
         uses: actions/checkout@master
 
@@ -21,10 +46,10 @@ jobs:
           echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
           sudo apt-get update
           sudo apt-get install -y yarn
-          node --version
-          yarn --version
+          echo Node $(node --version)
+          echo Yarn $(yarn --version)
 
-      - name: Build ${{ github.sha }}
+      - name: Build commit ${{ github.sha }}
         run: |
           yarn
           yarn dist
