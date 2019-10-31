@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+
       - name: Install requirements
         run: |
           sudo apt-get update
@@ -22,11 +23,14 @@ jobs:
           sudo apt-get install -y yarn
           node --version
           yarn --version
+
       - name: Build project
         run: |
           yarn
           yarn dist
-          tar -caf release-${{ github.ref }}.tar.gz -C dist electron*.AppImage
+          pwd
+          ls -l
+          tar -caf release-${{ github.ref }}.tar.gz -C dist electron-webpack-quick-start-0.0.0.AppImage
 
       - name: Create Release
         id: create_release
